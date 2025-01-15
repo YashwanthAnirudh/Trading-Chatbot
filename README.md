@@ -3,6 +3,12 @@
 # Problem Statement
 As a global player in cryptocurrency trading, Ananda Exchange needs actionable insights from vast and complex trading data. Existing models struggle to keep pace with the dynamic and volatile nature of cryptocurrency markets. This project aims to develop advanced analytics and predictive tools to interpret trading signals, identify market opportunities, and mitigate risks effectively.
 
+# Project Files
+
+LLM Chatbot Code contains the source code of all the LLM modes used.
+FInal_Presentation.pptx contains the final presentation.
+Crypto Literature , Prompts for Trading.docx and  TradeGPT 100+ Prompts (1).pdf contains the data that we used in order to develop and finetune the chatbot.
+
 # Chatbot
 
 This section details the comprehensive approach used to evaluate, configure, and optimize various open-source Large Language Models (LLMs) for developing a high-performance chatbot tailored to cryptocurrency support. The methodology includes model selection, the development of chatbots with distinct configurations, integration of Retrieval-Augmented Generation (RAG), and the evaluation of each configuration’s performance based on established metrics.

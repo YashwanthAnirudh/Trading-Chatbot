@@ -298,7 +298,7 @@ o	The RetrievalQA system matches user queries with document embeddings to provid
 o	If the RAG system fails to find relevant content, the base LLM generates a response.
 
 
-Steps to Execute RAG Models
+# Steps to Execute RAG Models
 
 1.	Install dependencies: langchain_groq, faiss-cpu, transformers.
 
@@ -337,61 +337,59 @@ Gemma RAG vs Mistral RAG	-2.95	0.0035	Mistral RAG
 Mistral RAG vs Llama RAG	-0.84	0.402	Llama RAG
 
 The table compares various chatbot models using statistical tests to determine which model performs best based on weighted average scores. For each comparison, the "Better Model" is selected when the p-value is less than 0.05, indicating a statistically significant difference. Below, we explain why each selected model is the best:
+
 1.	Llama Base vs. Llama RAG:
 o	Better Model: Llama RAG
 o	The Llama RAG configuration incorporates retrieval-augmented generation (RAG), which enriches responses by retrieving relevant information from external sources. This significantly improves performance compared to the Llama Base model, reflected in the t-statistic (-9.03) and the highly significant p-value (<0.0001).
+
 2.	Gemma Base vs. Gemma RAG:
 o	Better Model: Gemma RAG
 o	Although the p-value (0.436) is greater than 0.05, suggesting no statistically significant difference, the RAG component in Gemma RAG is expected to enhance its ability to provide more accurate and contextually relevant answers, making it the slightly better choice.
+
 3.	Mistral Base vs. Mistral RAG:
 o	Better Model: Mistral RAG
 o	Mistral RAG's integration of RAG improves its retrieval and generation capabilities, outperforming the base model. This is confirmed by the t-statistic (-2.11) and the significant p-value (0.036).
+
 4.	Llama Base vs. Gemma Base:
 o	Better Model: Llama Base
 o	Llama Base outperforms Gemma Base with a statistically significant difference (p-value <0.0001), likely due to better optimization or model architecture that results in superior baseline performance.
+
 5.	Gemma Base vs. Mistral Base:
 o	Better Model: Mistral Base
 o	Mistral Base exhibits better baseline performance, as evidenced by a significant p-value (0.0231). Its architecture or training strategy might be more effective compared to Gemma Base.
+
 6.	Mistral Base vs. Llama Base:
 o	Better Model: Mistral Base
 o	Mistral Base significantly outperforms Llama Base (p-value <0.0001) due to its superior ability to generalize and generate better responses in a base configuration.
+
 7.	Llama RAG vs. Gemma RAG:
 o	Better Model: Llama RAG
 o	Llama RAG performs better than Gemma RAG, as shown by a significant p-value (0.00012). The superior implementation of RAG in Llama RAG may contribute to its enhanced retrieval and response quality.
+
 8.	Gemma RAG vs. Mistral RAG:
 o	Better Model: Mistral RAG
 o	Mistral RAG significantly outperforms Gemma RAG (p-value = 0.0035). This indicates that Mistral RAG's architecture or integration with RAG is more effective in leveraging external information.
+
 9.	Mistral RAG vs. Llama RAG:
 o	Better Model: Llama RAG
 o	The p-value (0.402) indicates no significant difference between the two models. However, Llama RAG's retrieval capabilities might slightly edge out Mistral RAG in terms of consistency or relevance.
 
 
 
-•	Final Selection and Deployment Preparations
+# Final Selection and Deployment Preparations
+
 Based on the comparative evaluation, the configuration demonstrating the highest accuracy and consistency with standard responses will be selected for deployment. This finalized chatbot will be integrated into a user-friendly interface (UI) designed for accessibility across Ananda Exchange’s platform, enabling efficient, 24/7 support. Final deployment preparations focused on ensuring seamless performance across devices, aligning with the goal of delivering reliable user experience for cryptocurrency support.
+
 This methodology outlines each step of the approach, including model selection, configuration development, and performance assessment, ensuring clarity and reproducibility for stakeholders. Each section provides insights into not only the actions taken but also the rationale, making this approach adaptable to similar applications in cryptocurrency and beyond.
-
-•	LLM project configurations to test and experiment setup
  
-Open source LLM	Basic config	RAG config	Fine tuning config	Other
-Llama 3.2	Yes	Yes	No (we have fine-tuned the model to have response with standard answers by feeding standard answers)	 
-Gemma 	Yes	Yes	No (we have fine-tuned the model to have response with standard answers by feeding standard answers)	
-Mistral 7B	Yes	Yes	No (we have fine-tuned the model to have response with standard answers by feeding standard answers)	 
- 
+# Evaluation metrics used:
 
-•	Documentation used for RAG and fine tuning.
-8.	Crypto Literature
-9.	Factual Data
-10.	Coin Base Analysis Reports
-11.	Strategies & Techniques of Trading
-12.	Market Structure
-13.	Crypto Banking Reports
-14.	Chart books
-
-•	Evaluation metrics used:
 	BLEU (Bilingual Evaluation Understudy Score): Measures word overlap between the chatbot’s response and standard answers, where higher scores indicate closer lexical similarity.
+
 	ROUGE (Recall-Oriented Understudy for Gisting Evaluation): Evaluates recall of n-grams within responses, utilizing ROUGE-1, ROUGE-2, and ROUGE-L scores to capture different n-gram recalls.
+
 	BERT Score: Assesses semantic similarity based on embeddings, making it particularly suited for LLM evaluation where meaning over exact words is significant.
+
 	Cosine Similarity (Embedding): Calculates similarity in the embedding space, typically utilizing Sentence Transformers or similar embeddings, providing insights into overall alignment with intended answers.
 
 We are collecting responses from all the models listed above and running the metrics on these models using Colab.

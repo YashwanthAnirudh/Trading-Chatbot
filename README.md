@@ -12,8 +12,11 @@ This section details the comprehensive approach used to evaluate, configure, and
 Initial exploration included a broad range of open-source LLMs, with evaluation based on computational efficiency, response accuracy, and compatibility with cryptocurrency-related inquiries. Following a detailed assessment, Llama, Mistral, Gemma, and XGen were selected as the final LLMs for chatbot development. These models were chosen due to their strengths in handling complex queries, efficient resource usage, and adaptability for crypto-specific language.
 
 •	Llama: Selected for its resource efficiency, making it ideal for lightweight deployments without sacrificing performance.
+
 •	Mistral: Known for balancing processing demands with high memory efficiency, particularly suited to chatbot implementations requiring ongoing context retention.
+
 •	Gemma: Offers strong multilingual support, ensuring accessibility to a diverse user base within the cryptocurrency community.
+
 •	XGen: Recognized for its versatility and capability to process a broad range of queries, making it a reliable choice for diverse crypto-related inquiries.
 
 **2. Chatbot Development Across Configurations**

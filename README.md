@@ -101,6 +101,7 @@ Since ROUGE metrics evaluate both fluency (via ROUGE-2 and ROUGE-L) and coverage
 **Weight Justification:** While BERTScore provides semantic accuracy, it’s not as important as ROUGE in terms of capturing fluency and logical structure. Hence, it receives a moderate weight of 0.15, reflecting the importance of meaning in comparison to fluency and recall metrics.
 
 •	Cosine Similarity (Embedding): Calculates similarity in the embedding space, typically utilizing Sentence Transformers or similar embeddings, providing insights into overall alignment with intended answers.
+
 **Reason for the Weight:** Cosine Similarity measures the overall semantic similarity between the vector representations of two sentences. It compares the angle between the two vectors in high-dimensional space, allowing it to capture general similarities in meaning.
 
 **Weight Justification:** Cosine similarity is more of a secondary metric that supplements other metrics but doesn’t carry as much importance in this particular evaluation. It is given the lowest weight (0.05) to acknowledge its role in providing a broad sense of similarity but not as a primary evaluator for fluency or structure.

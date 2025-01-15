@@ -381,4 +381,99 @@ This methodology outlines each step of the approach, including model selection, 
 
 We are collecting responses from all the models listed above and running the metrics on these models using Colab.
 
+# Results
+
+# Chatbot Performance Analysis
+![image](https://github.com/user-attachments/assets/026f0a9a-8a3f-489b-a3f0-63acf3f168b7)
+
+Formula calculation:
+•	Accuracy Gain (%)=Weighted Avg (Model 1) - Weighted Avg (Model2)/Weighted Avg (Model 1)×100
+•	Cost Increase (%)=Fixed Percentage Increase (RAG)=20%
+
+Example:
+Example: Llama Base vs. Llama RAG
+•	Weighted Avg (Base): 0.2385
+•	Weighted Avg (RAG): 0.2993
+Cost : Llama 70b x 10= 700 units per hr
+Cost : Llama RAG = 700+20%(700) units/hr
+Accuracy : 
+              abs(0.2385 – 0.2993 / 0.2385)X100 
+                = 24.5%
+![image](https://github.com/user-attachments/assets/7e6f7d83-8ae3-4e80-9339-45ace6f884ab)
+
+# Business Recommendation:
+
+The table you provided offers a detailed comparison of various model pairs, focusing on performance gains, cost differences, and culminating in tailored business recommendations for each scenario. Here's a clear presentation of business recommendations based on the provided data:
+
+1.	Llama Base vs. Llama RAG
+o	Adopt Llama RAG for high-accuracy, mission-critical applications where the 25.5% performance gain justifies the 20% higher operational costs. This model is ideal for scenarios where precision and reliability are paramount.
+
+2.	Mistral Base vs. Mistral RAG
+o	Use Mistral RAG for moderate-scale, cost-sensitive tasks, as it offers a 5.8% performance improvement at a comparable 20% increase in operational costs. This model is suitable for applications that benefit from improved performance without drastically higher costs.
+
+3.	Gemma Base vs. Gemma RAG
+o	Retain Gemma Base for cost savings since the negligible performance improvement (~2%) does not justify the 20% additional cost. This option is best for maintaining budget efficiency while achieving adequate performance.
+
+4.	Gemma RAG vs. Mistral RAG
+o	Use Mistral RAG for better performance and cost efficiency. With a 9.1% performance advantage and comparable operational costs to Gemma RAG, Mistral RAG is the superior choice for achieving enhanced efficiency and effectiveness.
+
+5.	Mistral Base vs. Llama Base
+o	Use Mistral Base for applications that require low operational costs and high efficiency, as it outperforms Llama Base by 15.8% while costing significantly less (10 times lower cost). This model is optimal for cost-effective scalability and substantial processing tasks.
+
+6.	Llama RAG vs. Mistral RAG
+o	Use Mistral RAG for cost-effective performance when budget is constrained, as both models show negligible performance differences (<2%), but Llama RAG incurs significantly higher costs (10 times higher). Mistral RAG provides a balanced solution between cost and advanced capabilities.
+
+These recommendations are designed to guide decision-making processes, aligning model selection with specific business needs and financial constraints. By following these suggestions, organizations can optimize their investments in large language models, ensuring they receive the best possible return on investment tailored to their specific use cases and operational budgets.
+
+# Predicted Outcomes and Impacts
+
+•	Chatbot Development: 
+	Deployment of Llama 3.2 with RAG is expected to significantly improve customer service by providing accurate, semantically rich responses, enhancing user satisfaction, and reducing operational overhead.
+
+# How well did model(s) perform?
+
+The models were evaluated against a series of metrics designed to assess both the precision of word matching and the depth of semantic comprehension. The **Llama with RAG** model stood out with substantial improvements across all measured areas, indicating a profound enhancement in lexical precision and semantic accuracy. In contrast, **Mistral with RAG** also showed improvements, but these were less dramatic, emphasizing the model's moderate response to the RAG integration. **Gemma with RAG**, however, exhibited inconsistent results, where some metrics like BERTScore improved, indicating better semantic alignment, while others like BLEU and Cosine Similarity decreased, suggesting a potential misalignment with RAG's integration or a dilution in lexical precision.
+
+
+# What trends can be expected (quantify these)?
+
+Empirical trends indicate:
+
+	RAG significantly improves model performance, particularly in Llama and Mistral models. Quantitatively, models with RAG demonstrated up to a 20% improvement in BERTScore, suggesting enhanced semantic understanding.
+
+	Expectations for future performance: With ongoing advancements and integration of RAG, these models are anticipated to further their lead in performance metrics by an estimated 10-15% in the upcoming iterations, especially as they are fine-tuned and optimized for specific linguistic tasks.
+
+# Some responses from chatbots:
+
+Llama 3.2 with RAG
+![image](https://github.com/user-attachments/assets/ae33451f-0eb5-48d1-9b22-9cc261e6f89e)
+
+ 
+Llama 3.2 without RAG
+![image](https://github.com/user-attachments/assets/809a4423-15f5-444b-a3df-cbf047421c50)
+
+ 
+Gemma with RAG
+![image](https://github.com/user-attachments/assets/1d8e1adf-e2d7-4892-bc01-71ef34e3210b)
+
+ 
+Gemma without RAG
+![image](https://github.com/user-attachments/assets/e39371d5-a935-4321-a39a-bf5e0fab0936)
+
+ 
+Mistral with RAG 
+![image](https://github.com/user-attachments/assets/622caab0-35c1-48f0-ad0a-b03622c9c05f)
+
+ 
+Mistral without RAG
+![image](https://github.com/user-attachments/assets/23cc03ea-adcc-4744-9e26-d5882da48961)
+ 
+
+
+
+Evaluation metrics Results:
+
+![image](https://github.com/user-attachments/assets/daee9f72-d850-4941-8ac9-10550e4b9d1b)
+
+ 
 

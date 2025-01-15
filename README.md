@@ -1,6 +1,6 @@
 # Trading-Chatbot
 
-# problem statement
+# Problem Statement
 As a global player in cryptocurrency trading, Ananda Exchange needs actionable insights from vast and complex trading data. Existing models struggle to keep pace with the dynamic and volatile nature of cryptocurrency markets. This project aims to develop advanced analytics and predictive tools to interpret trading signals, identify market opportunities, and mitigate risks effectively.
 
 # Chatbot

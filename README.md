@@ -106,5 +106,294 @@ Since ROUGE metrics evaluate both fluency (via ROUGE-2 and ROUGE-L) and coverage
 
 **Weight Justification:** Cosine similarity is more of a secondary metric that supplements other metrics but doesn’t carry as much importance in this particular evaluation. It is given the lowest weight (0.05) to acknowledge its role in providing a broad sense of similarity but not as a primary evaluator for fluency or structure.
 
+# Comparative Evaluation of Chatbot Configurations
+# Comprehensive Discription of Six Chatbot Codes
+
+This explains the six codes by grouping common functionalities and highlighting the differences. The explanation starts with the base models and then transitions to Retrieval-Augmented Generation (RAG) models. Repeated code is explained once, with differences emphasized later.
+
+Common Libraries
+
+Below are the libraries used across the codes, with a brief explanation of their purpose:
+
+1.	langchain_groq: Provides the interface to interact with Groq-enabled large language models (LLMs).
+
+2.	os: Used to interact with the operating system for managing environment variables or file paths.
+
+3.	langchain.chains.RetrievalQA: Enables Retrieval-Augmented Generation (RAG) for question answering using external documents.
+
+4.	langchain_huggingface: Integrates HuggingFace embeddings for vectorization of text.
+
+5.	langchain_community.vectorstores.FAISS: Implements a FAISS-based vector store to store and retrieve document embeddings.
+
+6.	langchain_community.document_loaders.DirectoryLoader: Loads documents from a specified directory.
+
+7.	langchain.text_splitter: Splits large documents into smaller, manageable text chunks.
+
+8.	re: Provides regular expressions for cleaning responses.
+
+Base models focus on conversational AI without external document retrieval. These include ChatbotGemma_Base.py, ChatbotLlama_Base.py, and ChatbotMixtral_Base.py.
+
+Code Explanation for Base Models
+
+Common Code for Base Models:
+from langchain_groq import ChatGroq
+import os
+
+# Initialize the model
+llm = ChatGroq(
+    temperature=0,  # Controls response randomness
+    groq_api_key='YOUR_API_KEY_HERE',  # Replace with your API key
+    model_name="MODEL_NAME_HERE"  # Replace with specific model name
+    )
+# List to store conversation history
+conversation_history = []
+# Function to interact with the chatbot
+def chat_with_model():
+    print("Welcome to the chatbot! Type 'exit' to quit.")
+
+    while True:
+        # Capture user input
+        user_input = input("You: ")
+        
+        if user_input.lower() == "exit":  # Exit condition
+            print("Goodbye!")
+            break
+        
+        # Add user input to conversation history
+        conversation_history.append(f"User: {user_input}")
+        
+        # Use the conversation history as context for the LLM
+        context = "\n".join(conversation_history)
+        
+        # Get response from the LLM
+        response = llm.invoke(context).content
+        
+        # Add bot's response to history and print it
+        conversation_history.append(f"Bot: {response}")
+        print(f"Bot: {response}")
+
+# Start the chatbot
+chat_with_model()
+
+
+Explanation:
+1.	Model Initialization:
+o	Uses the ChatGroq class to initialize a model with a specific temperature and API key.
+o	The temperature controls randomness: a lower value gives deterministic responses.
+o	The model_name specifies the exact model to use (e.g., gemma2-9b-it).
+2.	Conversation History:
+o	Maintains a list of all interactions (conversation_history) to provide context for subsequent responses.
+3.	Chat Functionality:
+o	The chatbot runs in a loop, taking user inputs and appending them to the conversation history.
+o	The model generates a response based on the full conversation context.
+Differences in Base Models
+Model Name	Changes in Code
+Gemma RAG	model_name="gemma2-9b-it"
+Llama RAG	model_name="llama-3.1-70b-versatile"
+Mistral RAG	model_name="mixtral-8x7b-32768"
+
+Steps to Execute Base Models
+1.	Install langchain_groq using pip install langchain-groq.
+2.	Replace YOUR_API_KEY_HERE with your Groq API key in the script.
+3.	Run the script (python Chatbot<Model>_Base.py) and interact via the terminal.
+Retrieval-Augmented Generation (RAG) Models
+RAG integrates document retrieval to enhance chatbot responses with contextually relevant information. These include ChatbotGemma_RAG.py, ChatbotLlama_RAG.py, and ChatbotMistralRAG.py.
+How RAG Works
+1.	Document Loading:
+o	Loads files from a specified directory.
+o	Splits the documents into chunks for efficient retrieval.
+2.	Embedding Generation:
+o	Converts text chunks into vector embeddings using HuggingFace Sentence Transformers.
+3.	FAISS Vector Store:
+o	Stores the embeddings in a FAISS database for fast retrieval.
+4.	Query Handling:
+o	Matches user queries with the most relevant document chunks using similarity search.
+o	Combines the retrieved chunks with the user query for LLM processing.
+5.	Fallback Mechanism:
+o	If no relevant information is found in the documents, the model defaults to generating a response based on its training.
+
+Code Explanation for RAG Models
+Common Code for RAG Models:
+from langchain_groq import ChatGroq
+from langchain.chains import RetrievalQA
+from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_community.vectorstores import FAISS
+from langchain_community.document_loaders import DirectoryLoader
+from langchain.text_splitter import CharacterTextSplitter
+import re
+
+# Initialize the model
+llm = ChatGroq(
+    temperature=0,
+    groq_api_key='YOUR_API_KEY_HERE',
+    model_name="MODEL_NAME_HERE"
+)
+
+# Load documents
+docs_folder = '/path/to/documents'
+loader = DirectoryLoader(docs_folder)
+documents = loader.load()
+
+# Split documents into smaller chunks
+text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+texts = text_splitter.split_documents(documents)
+
+# Create embeddings for the chunks
+embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+vector_store = FAISS.from_documents(texts, embeddings)
+
+# Initialize Retrieval QA system
+retrieval_qa = RetrievalQA.from_chain_type(
+    llm=llm,
+    chain_type="stuff",
+    retriever=vector_store.as_retriever()
+)
+
+# Clean RAG responses
+def clean_response(response):
+    response = re.sub(r"(according to.*?|based on the provided.*?|the text mentions that)", "", response, flags=re.IGNORECASE)
+    return response.strip()
+
+# Chat function
+conversation_history = []
+
+def chat_with_model():
+    print("Welcome to the RAG-enhanced Chatbot! Type 'exit' to quit.")
+
+    while True:
+        user_input = input("You: ")
+        
+        if user_input.lower() == "exit":
+            print("Goodbye!")
+            break
+        
+        conversation_history.append(f"User: {user_input}")
+        context = "\n".join(conversation_history)
+
+        try:
+            doc_response = retrieval_qa.invoke({"query": user_input})['result']
+            response = clean_response(doc_response)
+        except:
+            response = llm.invoke(user_input).content
+
+        conversation_history.append(f"Bot: {response}")
+        print(f"Bot: {response}")
+
+# Start the chatbot
+chat_with_model()
+
+
+
+# Explanation:
+
+1.	Document Preprocessing:
+o	DirectoryLoader loads documents.
+o	CharacterTextSplitter breaks documents into overlapping chunks for better retrieval accuracy.
+2.	Embedding and Retrieval:
+o	Generates embeddings using HuggingFaceEmbeddings.
+o	Stores embeddings in a FAISS vector database.
+3.	Retrieval QA System:
+o	The RetrievalQA system matches user queries with document embeddings to provide contextually relevant responses.
+4.	Fallback Mechanism:
+o	If the RAG system fails to find relevant content, the base LLM generates a response.
+
+
+Steps to Execute RAG Models
+
+1.	Install dependencies: langchain_groq, faiss-cpu, transformers.
+
+2.	Place relevant documents in a folder and update docs_folder.
+
+3.	Replace YOUR_API_KEY_HERE with the API key.
+
+4.	Run the script (python Chatbot<Model>_RAG.py) and test queries with document-backed responses.
+
+
+We are collecting responses from all the models listed above and running the metrics on these models using Colab.
+
+After performing the metric evaluation we got the following weighted averages for models.
+
+Model	Weighted Avg
+Llama_Base	0.2385
+Llama_RAG	0.2993
+Gemma_Base	0.2636
+Gemma_RAG	0.2684
+Mistral_Base	0.2761
+Mistral_RAG	0.2921
+
+The evaluation results for the weighted average scores reveal the highest and lowest performing configurations among the models. The Llama_Base model recorded the lowest score at 0.2385, while the Llama_RAG configuration achieved the highest score at 0.2993. Among the other models, the Gemma_Base scored 0.2636, and the Gemma_RAG slightly improved to 0.2684. Similarly, the Mistral_Base configuration obtained a weighted average of 0.2761, with the Mistral_RAG configuration enhancing its performance to 0.2921. These scores demonstrate the variations in performance across the models and configurations.
+
+To evaluate whether the models are significantly different, a statistical test such as the t-test can be employed. This test assesses whether the means of two groups (in this case, the performance scores of different chatbot configurations) are statistically different from each other.
+
+Models	T statistic value	P value	Better Model
+Llama Base vs Llama RAG	-9.03	<0.0001	Llama RAG
+Gemma Base vs Gemma RAG	-0.78	 0.436	Gemma RAG
+Mistral Base vs Mistral RAG	-2.11	0.036	Mistral RAG
+Llama Base vs Gemma Base	-5.58	<0.0001	Llama Base
+Gemma Base vs Mistral Base	-2.29	0.0231	Mistral Base
+Mistral Base vs Llama Base	6.96	<0.0001	Mistral Base
+Llama RAG vs Gemma RAG	3.93	0.00012	Llama RAG
+Gemma RAG vs Mistral RAG	-2.95	0.0035	Mistral RAG
+Mistral RAG vs Llama RAG	-0.84	0.402	Llama RAG
+
+The table compares various chatbot models using statistical tests to determine which model performs best based on weighted average scores. For each comparison, the "Better Model" is selected when the p-value is less than 0.05, indicating a statistically significant difference. Below, we explain why each selected model is the best:
+1.	Llama Base vs. Llama RAG:
+o	Better Model: Llama RAG
+o	The Llama RAG configuration incorporates retrieval-augmented generation (RAG), which enriches responses by retrieving relevant information from external sources. This significantly improves performance compared to the Llama Base model, reflected in the t-statistic (-9.03) and the highly significant p-value (<0.0001).
+2.	Gemma Base vs. Gemma RAG:
+o	Better Model: Gemma RAG
+o	Although the p-value (0.436) is greater than 0.05, suggesting no statistically significant difference, the RAG component in Gemma RAG is expected to enhance its ability to provide more accurate and contextually relevant answers, making it the slightly better choice.
+3.	Mistral Base vs. Mistral RAG:
+o	Better Model: Mistral RAG
+o	Mistral RAG's integration of RAG improves its retrieval and generation capabilities, outperforming the base model. This is confirmed by the t-statistic (-2.11) and the significant p-value (0.036).
+4.	Llama Base vs. Gemma Base:
+o	Better Model: Llama Base
+o	Llama Base outperforms Gemma Base with a statistically significant difference (p-value <0.0001), likely due to better optimization or model architecture that results in superior baseline performance.
+5.	Gemma Base vs. Mistral Base:
+o	Better Model: Mistral Base
+o	Mistral Base exhibits better baseline performance, as evidenced by a significant p-value (0.0231). Its architecture or training strategy might be more effective compared to Gemma Base.
+6.	Mistral Base vs. Llama Base:
+o	Better Model: Mistral Base
+o	Mistral Base significantly outperforms Llama Base (p-value <0.0001) due to its superior ability to generalize and generate better responses in a base configuration.
+7.	Llama RAG vs. Gemma RAG:
+o	Better Model: Llama RAG
+o	Llama RAG performs better than Gemma RAG, as shown by a significant p-value (0.00012). The superior implementation of RAG in Llama RAG may contribute to its enhanced retrieval and response quality.
+8.	Gemma RAG vs. Mistral RAG:
+o	Better Model: Mistral RAG
+o	Mistral RAG significantly outperforms Gemma RAG (p-value = 0.0035). This indicates that Mistral RAG's architecture or integration with RAG is more effective in leveraging external information.
+9.	Mistral RAG vs. Llama RAG:
+o	Better Model: Llama RAG
+o	The p-value (0.402) indicates no significant difference between the two models. However, Llama RAG's retrieval capabilities might slightly edge out Mistral RAG in terms of consistency or relevance.
+
+
+
+•	Final Selection and Deployment Preparations
+Based on the comparative evaluation, the configuration demonstrating the highest accuracy and consistency with standard responses will be selected for deployment. This finalized chatbot will be integrated into a user-friendly interface (UI) designed for accessibility across Ananda Exchange’s platform, enabling efficient, 24/7 support. Final deployment preparations focused on ensuring seamless performance across devices, aligning with the goal of delivering reliable user experience for cryptocurrency support.
+This methodology outlines each step of the approach, including model selection, configuration development, and performance assessment, ensuring clarity and reproducibility for stakeholders. Each section provides insights into not only the actions taken but also the rationale, making this approach adaptable to similar applications in cryptocurrency and beyond.
+
+•	LLM project configurations to test and experiment setup
+ 
+Open source LLM	Basic config	RAG config	Fine tuning config	Other
+Llama 3.2	Yes	Yes	No (we have fine-tuned the model to have response with standard answers by feeding standard answers)	 
+Gemma 	Yes	Yes	No (we have fine-tuned the model to have response with standard answers by feeding standard answers)	
+Mistral 7B	Yes	Yes	No (we have fine-tuned the model to have response with standard answers by feeding standard answers)	 
+ 
+
+•	Documentation used for RAG and fine tuning.
+8.	Crypto Literature
+9.	Factual Data
+10.	Coin Base Analysis Reports
+11.	Strategies & Techniques of Trading
+12.	Market Structure
+13.	Crypto Banking Reports
+14.	Chart books
+
+•	Evaluation metrics used:
+	BLEU (Bilingual Evaluation Understudy Score): Measures word overlap between the chatbot’s response and standard answers, where higher scores indicate closer lexical similarity.
+	ROUGE (Recall-Oriented Understudy for Gisting Evaluation): Evaluates recall of n-grams within responses, utilizing ROUGE-1, ROUGE-2, and ROUGE-L scores to capture different n-gram recalls.
+	BERT Score: Assesses semantic similarity based on embeddings, making it particularly suited for LLM evaluation where meaning over exact words is significant.
+	Cosine Similarity (Embedding): Calculates similarity in the embedding space, typically utilizing Sentence Transformers or similar embeddings, providing insights into overall alignment with intended answers.
+
+We are collecting responses from all the models listed above and running the metrics on these models using Colab.
 
 

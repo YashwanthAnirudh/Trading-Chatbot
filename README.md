@@ -313,28 +313,15 @@ We are collecting responses from all the models listed above and running the met
 
 After performing the metric evaluation we got the following weighted averages for models.
 
-Model	Weighted Avg
-Llama_Base	0.2385
-Llama_RAG	0.2993
-Gemma_Base	0.2636
-Gemma_RAG	0.2684
-Mistral_Base	0.2761
-Mistral_RAG	0.2921
+![image](https://github.com/user-attachments/assets/6b4916ed-2a7b-40f7-aa2a-3f9e701d369a)
+
 
 The evaluation results for the weighted average scores reveal the highest and lowest performing configurations among the models. The Llama_Base model recorded the lowest score at 0.2385, while the Llama_RAG configuration achieved the highest score at 0.2993. Among the other models, the Gemma_Base scored 0.2636, and the Gemma_RAG slightly improved to 0.2684. Similarly, the Mistral_Base configuration obtained a weighted average of 0.2761, with the Mistral_RAG configuration enhancing its performance to 0.2921. These scores demonstrate the variations in performance across the models and configurations.
 
 To evaluate whether the models are significantly different, a statistical test such as the t-test can be employed. This test assesses whether the means of two groups (in this case, the performance scores of different chatbot configurations) are statistically different from each other.
 
-Models	T statistic value	P value	Better Model
-Llama Base vs Llama RAG	-9.03	<0.0001	Llama RAG
-Gemma Base vs Gemma RAG	-0.78	 0.436	Gemma RAG
-Mistral Base vs Mistral RAG	-2.11	0.036	Mistral RAG
-Llama Base vs Gemma Base	-5.58	<0.0001	Llama Base
-Gemma Base vs Mistral Base	-2.29	0.0231	Mistral Base
-Mistral Base vs Llama Base	6.96	<0.0001	Mistral Base
-Llama RAG vs Gemma RAG	3.93	0.00012	Llama RAG
-Gemma RAG vs Mistral RAG	-2.95	0.0035	Mistral RAG
-Mistral RAG vs Llama RAG	-0.84	0.402	Llama RAG
+![image](https://github.com/user-attachments/assets/56d083b8-13d3-46bd-a48e-e118e99fab37)
+
 
 The table compares various chatbot models using statistical tests to determine which model performs best based on weighted average scores. For each comparison, the "Better Model" is selected when the p-value is less than 0.05, indicating a statistically significant difference. Below, we explain why each selected model is the best:
 

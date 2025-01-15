@@ -53,7 +53,9 @@ The comparative results from each LLM configuration will be analyzed to determin
 Based on the comparative evaluation, the configuration demonstrating the highest accuracy and consistency with standard responses will be selected for deployment. This finalized chatbot will be integrated into a user-friendly interface (UI) designed for accessibility across Ananda Exchange’s platform, enabling efficient, 24/7 support. Final deployment preparations focused on ensuring seamless performance across devices, aligning with the goal of delivering reliable user experience for cryptocurrency support.
 
 This methodology outlines each step of the approach, including model selection, configuration development, and performance assessment, ensuring clarity and reproducibility for stakeholders. Each section provides insights into not only the actions taken but also the rationale, making this approach adaptable to similar applications in cryptocurrency and beyond.
-![image](https://github.com/user-attachments/assets/55d5c5e6-9cdb-4d37-bb94-f6749b1779c6)
+
+![image](https://github.com/user-attachments/assets/a279b5b0-5347-4886-971c-d399b387577a)
+
 
 # Documentation used for RAG and fine tuning.
 1.	Crypto Literature
